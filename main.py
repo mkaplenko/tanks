@@ -18,6 +18,12 @@ class Direction(enum.IntEnum):
     RIGHT = 3
 
 
+all_sprites = pygame.sprite.Group()
+players = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+blocks = pygame.sprite.Group()
+
+
 class Block(pygame.sprite.Sprite):
     SIZE = W, H, = 30, 30
     # COLOR = pygame.Color("#FF524A")
@@ -85,6 +91,10 @@ class Player(pygame.sprite.Sprite):
             self.vx = self.SPEED
             self.direction = Direction.RIGHT
 
+    def stop(self):
+        self.vy = 0
+        self.vx = 0
+
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
         self.image = self.sprites[self.direction]
@@ -115,19 +125,22 @@ with open('test-level.map') as fd:
     map_data = fd.readlines()
 
 cords = 0, 0
-blocks = []
 for row in map_data:
     for el in row:
         if el == '0':
             bl = Block(*cords)
-            blocks.append(bl)
+            all_sprites.add(bl)
+            blocks.add(bl)
         cords = cords[0] + Block.SIZE[0], cords[1]
     cords = 0, cords[1] + Block.SIZE[1]
 
 player = Player(WINDOW_SIZE[0] / 2 - 60 * 3, WINDOW_SIZE[1] - 60 * 2)
-
+all_sprites.add(player)
+players.add(player)
 
 while game.is_running():
+    if pygame.sprite.spritecollideany(player, blocks):
+        player.stop()
     for event in pygame.event.get():
         if event.type == QUIT:
             game.quit()
@@ -140,14 +153,20 @@ while game.is_running():
 
     game.screen.fill((0, 0, 0))
 
-    block = pygame.Surface((60, 60))
-    block.fill(pygame.Color("#FB4D3B"))
+    # block = pygame.Surface((60, 60))
+    # block.fill(pygame.Color("#FB4D3B"))
 
-    for bl in blocks:
-        game.screen.blit(bl.image, bl.rect)
 
-    player.update()
-    game.screen.blit(player.image, player.rect)
+    # player.update()
+    # for obj in all_sprites:
+    #     game.screen.blit(obj.image, obj.rect)
+    all_sprites.draw(game.screen)
+    all_sprites.update()
 
-    pygame.display.flip()
+    # game.screen.blit(player.image, player.rect)
+
+    # pygame.display.flip()
+    pygame.display.update()
     clock.tick(40)
+
+pygame.quit()
