@@ -5,7 +5,7 @@ from pygame import constants
 
 from battlecity.config import DATA_DIR
 from battlecity.game import Game
-from battlecity.player import Player
+from battlecity.player import Player, Direction
 from battlecity.block import Block
 
 pygame.init()
@@ -44,7 +44,17 @@ def main():
     players.add(player)
 
     while game.is_running():
-        if pygame.sprite.spritecollideany(player, blocks):
+        block_collided = pygame.sprite.spritecollideany(player, blocks)
+        if block_collided:
+            if player.direction == Direction.UP:
+                player.rect.top = block_collided.rect.bottom
+            elif player.direction == Direction.DOWN:
+                player.rect.bottom = block_collided.rect.top
+            elif player.direction == Direction.LEFT:
+                player.rect.left = block_collided.rect.right
+            elif player.direction == Direction.RIGHT:
+                player.rect.right = block_collided.rect.left
+
             player.stop()
         for event in pygame.event.get():
             if event.type == constants.QUIT:
