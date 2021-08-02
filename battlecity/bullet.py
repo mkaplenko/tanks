@@ -4,17 +4,22 @@ from battlecity.game import Direction
 
 
 class Bullet(pygame.sprite.Sprite):
-    size = (5, 5)
-    speed = 5
+    vsize = (5, 10)
+    hsize = (10, 5)
+    speed = 7
 
     def __init__(self, x: int, y: int, direction: Direction) -> None:
         super(Bullet, self).__init__()
-        self.image = pygame.surface.Surface(Bullet.size)
-        self.image.fill(pygame.Color("#FF524A"))
+        self.direction: Direction = direction
+        if direction in (Direction.RIGHT, Direction.LEFT):
+            size = Bullet.hsize
+        else:
+            size = Bullet.vsize
+        self.image = pygame.surface.Surface(size)
+        self.image.fill(pygame.Color((255, 255, 255)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.direction: Direction = direction
 
     def update(self, *args, **kwargs) -> None:
         if self.direction == Direction.UP:

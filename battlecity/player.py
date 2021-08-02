@@ -54,7 +54,19 @@ class Player(pygame.sprite.Sprite):
         self.vx = 0
 
     def fire(self):
-        bullet = Bullet(self.rect.x, self.rect.y, self.direction)
+        if self.direction == Direction.UP:
+            pos = self.rect.midtop
+            pos = pos[0] - 2, pos[1]
+        elif self.direction == Direction.DOWN:
+            pos = self.rect.midbottom
+            pos = pos[0] - 2, pos[1]
+        elif self.direction == Direction.LEFT:
+            pos = self.rect.midleft
+            pos = pos[0], pos[1] - 2
+        else:
+            pos = self.rect.midright
+            pos = pos[0], pos[1] - 2
+        bullet = Bullet(*pos, self.direction)
         bullets.add(bullet)
         all_sprites.add(bullet)
 
