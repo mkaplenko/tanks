@@ -4,7 +4,7 @@ import pygame
 from pygame import constants
 
 from battlecity.config import DATA_DIR
-from battlecity.game import Game
+from battlecity.game import Game, all_sprites, blocks, players
 from battlecity.player import Player, Direction
 from battlecity.block import Block
 
@@ -13,12 +13,6 @@ WINDOW_SIZE = WIDTH, HEIGHT = 1560, 960
 LEVEL_FILENAME = 'test-level.map'
 
 clock = pygame.time.Clock()
-
-
-all_sprites = pygame.sprite.Group()
-players = pygame.sprite.Group()
-enemies = pygame.sprite.Group()
-blocks = pygame.sprite.Group()
 
 
 def main():
@@ -60,7 +54,10 @@ def main():
             if event.type == constants.QUIT:
                 game.quit()
             if event.type == constants.KEYDOWN:
-                player.move(pygame.key.get_pressed())
+                if event.key == constants.K_SPACE:
+                    player.fire()
+                else:
+                    player.move(pygame.key.get_pressed())
             if event.type == constants.KEYUP:
                 player.move(pygame.key.get_pressed())
 
