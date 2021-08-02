@@ -1,16 +1,9 @@
-import enum
-
 import pygame
 from pygame import constants
 
+from battlecity.bullet import Bullet
 from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT
-
-
-class Direction(enum.IntEnum):
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
+from battlecity.game import bullets, all_sprites, Direction
 
 
 class Player(pygame.sprite.Sprite):
@@ -59,6 +52,11 @@ class Player(pygame.sprite.Sprite):
     def stop(self):
         self.vy = 0
         self.vx = 0
+
+    def fire(self):
+        bullet = Bullet(self.rect.x, self.rect.y, self.direction)
+        bullets.add(bullet)
+        all_sprites.add(bullet)
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
