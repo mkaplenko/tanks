@@ -15,12 +15,10 @@ class Direction(enum.IntEnum):
 
 class Player(pygame.sprite.Sprite):
     SIZE = W, H, = 60, 60
-    # COLOR = pygame.Color("#6288FA")
     SPEED = 3
 
     def __init__(self, x, y):
         super(Player, self).__init__()
-        # self.image = pygame.Surface(Player.SIZE)
 
         self.sprites = {
             Direction.UP: pygame.image.load(PLAYER1_IMG_UP).convert(),
@@ -35,7 +33,6 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.topleft = x, y
-        # self.image.fill(Player.COLOR)
 
         self.vx = 0
         self.vy = 0
