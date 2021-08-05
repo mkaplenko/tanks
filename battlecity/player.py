@@ -1,9 +1,9 @@
 import pygame
 from pygame import constants
 
+from battlecity import Direction, bullets, all_sprites, blocks
 from battlecity.bullet import Bullet
 from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT
-from battlecity.game import bullets, all_sprites, Direction
 
 
 class Player(pygame.sprite.Sprite):
@@ -70,6 +70,21 @@ class Player(pygame.sprite.Sprite):
         bullets.add(bullet)
         all_sprites.add(bullet)
 
+    def check_block_collision(self):
+        block_collided = pygame.sprite.spritecollideany(self, blocks)
+        if block_collided:
+            if self.direction == Direction.UP:
+                self.rect.top = block_collided.rect.bottom
+            elif self.direction == Direction.DOWN:
+                self.rect.bottom = block_collided.rect.top
+            elif self.direction == Direction.LEFT:
+                self.rect.left = block_collided.rect.right
+            elif self.direction == Direction.RIGHT:
+                self.rect.right = block_collided.rect.left
+
+            self.stop()
+
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
         self.image = self.sprites[self.direction]
+        self.check_block_collision()

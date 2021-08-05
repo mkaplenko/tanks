@@ -1,6 +1,6 @@
 import pygame
 
-from battlecity.game import Direction
+from battlecity import Direction
 
 
 class Bullet(pygame.sprite.Sprite):
