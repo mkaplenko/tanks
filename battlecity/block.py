@@ -17,6 +17,9 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.topleft = x, y
+        self.hp = 1
 
-    def __repr__(self):
-        return f"Block({self.x}, {self.y})"
+    def kill(self) -> None:
+        self.hp -= 1
+        if self.hp <= 0:
+            super(Block, self).kill()

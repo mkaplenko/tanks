@@ -1,6 +1,6 @@
 import pygame
 
-from battlecity import Direction
+from battlecity import Direction, blocks
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -21,6 +21,12 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+    def check_block_collide(self):
+        block = pygame.sprite.spritecollideany(self, blocks)
+        if block:
+            block.kill()
+            self.kill()
+
     def update(self, *args, **kwargs) -> None:
         if self.direction == Direction.UP:
             self.rect.move_ip(0, -self.speed)
@@ -30,3 +36,4 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.move_ip(-self.speed, 0)
         elif self.direction == Direction.RIGHT:
             self.rect.move_ip(self.speed, 0)
+        self.check_block_collide()
