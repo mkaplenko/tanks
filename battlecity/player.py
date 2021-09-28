@@ -1,9 +1,11 @@
 import pygame
+import pyganim
 from pygame import constants
 
 from battlecity import Direction, bullets, all_sprites, blocks
 from battlecity.bullet import Bullet
-from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT
+from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT, PLAYER1_IMG_UP2, \
+    PLAYER1_IMG_DOWN2, PLAYER1_IMG_LEFT2, PLAYER1_IMG_RIGHT2
 
 
 class Player(pygame.sprite.Sprite):
@@ -13,45 +15,61 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(Player, self).__init__()
 
-        self.sprites = {
-            Direction.UP: pygame.image.load(PLAYER1_IMG_UP).convert(),
-            Direction.DOWN: pygame.image.load(PLAYER1_IMG_DOWN).convert(),
-            Direction.LEFT: pygame.image.load(PLAYER1_IMG_LEFT).convert(),
-            Direction.RIGHT: pygame.image.load(PLAYER1_IMG_RIGHT).convert(),
+        self.animations = {
+            Direction.UP: pyganim.PygAnimation([(PLAYER1_IMG_UP, 100), (PLAYER1_IMG_UP2, 100)]),
+            Direction.DOWN: pyganim.PygAnimation([(PLAYER1_IMG_DOWN, 100), (PLAYER1_IMG_DOWN2, 100)]),
+            Direction.LEFT: pyganim.PygAnimation([(PLAYER1_IMG_LEFT, 100), (PLAYER1_IMG_LEFT2, 100)]),
+            Direction.RIGHT: pyganim.PygAnimation([(PLAYER1_IMG_RIGHT, 100), (PLAYER1_IMG_RIGHT2, 100)]),
         }
 
         self.direction = Direction.UP
 
-        self.image = self.sprites[self.direction]
-        self.rect = self.image.get_rect()
+        self.animation = self.animations[self.direction]
+        self.animation.pause()
+        self.image = pygame.Surface(self.SIZE)
 
+        self.rect = self.image.get_rect()
         self.rect.topleft = x, y
 
         self.vx = 0
         self.vy = 0
 
     def move(self, keys):
+
         if not keys[constants.K_UP] and not keys[constants.K_DOWN]:
             self.vy = 0
         elif keys[constants.K_UP] and not keys[constants.K_LEFT] and not keys[constants.K_RIGHT]:
             self.vy = -self.SPEED
             self.direction = Direction.UP
+            self.animation = self.animations[self.direction]
+            self.animation.play()
         elif keys[constants.K_DOWN] and not keys[constants.K_LEFT] and not keys[constants.K_RIGHT]:
             self.vy = self.SPEED
             self.direction = Direction.DOWN
+            self.animation = self.animations[self.direction]
+            self.animation.play()
 
         if not keys[constants.K_LEFT] and not keys[constants.K_RIGHT]:
             self.vx = 0
         elif keys[constants.K_LEFT] and not keys[constants.K_UP] and not keys[constants.K_DOWN]:
             self.vx = -self.SPEED
             self.direction = Direction.LEFT
+            self.animation = self.animations[self.direction]
+            self.animation.play()
         elif keys[constants.K_RIGHT] and not keys[constants.K_UP] and not keys[constants.K_DOWN]:
             self.vx = self.SPEED
             self.direction = Direction.RIGHT
+            self.animation = self.animations[self.direction]
+            self.animation.play()
+
+        if not keys[constants.K_UP] and not keys[constants.K_DOWN] and not keys[constants.K_LEFT] \
+                and not keys[constants.K_RIGHT]:
+            self.animation.pause()
 
     def stop(self):
         self.vy = 0
         self.vx = 0
+        self.animation.pause()
 
     def fire(self):
         if self.direction == Direction.UP:
@@ -86,5 +104,6 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
-        self.image = self.sprites[self.direction]
+        # self.image = self.sprites[self.direction]
+        self.animation.blit(self.image)
         self.check_block_collision()

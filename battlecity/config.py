@@ -11,5 +11,10 @@ PLAYER1_IMG_DOWN = os.path.join(IMG_DIR, 'p1-little-down.bmp')
 PLAYER1_IMG_LEFT = os.path.join(IMG_DIR, 'p1-little-left.bmp')
 PLAYER1_IMG_RIGHT = os.path.join(IMG_DIR, 'p1-little-right.bmp')
 
+PLAYER1_IMG_UP2 = os.path.join(IMG_DIR, 'p1-little-up-2.bmp')
+PLAYER1_IMG_DOWN2 = os.path.join(IMG_DIR, 'p1-little-down-2.bmp')
+PLAYER1_IMG_LEFT2 = os.path.join(IMG_DIR, 'p1-little-left-2.bmp')
+PLAYER1_IMG_RIGHT2 = os.path.join(IMG_DIR, 'p1-little-right-2.bmp')
+
 # WALL
 WALL_IMG = os.path.join(IMG_DIR, 'wall.bmp')
