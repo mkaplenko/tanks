@@ -3,7 +3,7 @@ from typing import Optional
 import pygame
 from pygame import constants
 
-from battlecity import all_sprites, players, blocks, Direction
+from battlecity import all_sprites, players
 from battlecity.level import Level
 from battlecity.player import Player
 

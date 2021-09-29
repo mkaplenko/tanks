@@ -11,6 +11,8 @@ from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT
 class Player(pygame.sprite.Sprite):
     SIZE = W, H, = 60, 60
     SPEED = 3
+    AMMO_TRUNK_SIZE = 2
+    AMMO_PREPARE_SEC = 2
 
     def __init__(self, x, y):
         super(Player, self).__init__()
@@ -74,16 +76,16 @@ class Player(pygame.sprite.Sprite):
     def fire(self):
         if self.direction == Direction.UP:
             pos = self.rect.midtop
-            pos = pos[0] - 2, pos[1]
+            pos = pos[0] - 4, pos[1]
         elif self.direction == Direction.DOWN:
             pos = self.rect.midbottom
-            pos = pos[0] - 2, pos[1]
+            pos = pos[0] - 4, pos[1]
         elif self.direction == Direction.LEFT:
             pos = self.rect.midleft
-            pos = pos[0], pos[1] - 2
+            pos = pos[0], pos[1] - 4
         else:
             pos = self.rect.midright
-            pos = pos[0], pos[1] - 2
+            pos = pos[0], pos[1] - 4
         bullet = Bullet(*pos, self.direction)
         bullets.add(bullet)
         all_sprites.add(bullet)

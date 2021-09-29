@@ -1,12 +1,39 @@
 import pygame
+import pyganim
 
-from battlecity import Direction, blocks
+from battlecity import Direction, blocks, all_sprites
+from battlecity.config import HIT_SPRITES
+
+
+class Hit(pygame.sprite.Sprite):
+    SIZE = (50, 50)
+
+    def __init__(self, x: int, y: int):
+        super(Hit, self).__init__()
+        self.image = pygame.surface.Surface(self.SIZE)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = x, y
+
+        images = pyganim.getImagesFromSpriteSheet(HIT_SPRITES, rows=1, cols=3, rects=[])
+        t = list(zip(images, (50, 50, 50)))
+        self.anim = pyganim.PygAnimation(t)
+        self.anim.loop = False
+        self.anim.play()
+
+    def update(self, *args, **kwargs) -> None:
+        self.anim.blit(self.image, (0, 0))
+        if self.anim.state == pyganim.STOPPED:
+            self.kill()
 
 
 class Bullet(pygame.sprite.Sprite):
-    vsize = (5, 10)
-    hsize = (10, 5)
+    vsize = (8, 15)
+    hsize = (15, 8)
     speed = 7
+
+    __hit_rects = []
+    __hit_images = pyganim.getImagesFromSpriteSheet(HIT_SPRITES, rows=1, cols=3, rects=__hit_rects)
+    HIT_ANIMATION = pyganim.PygAnimation(list(zip(__hit_images, (100, 100, 100))))
 
     def __init__(self, x: int, y: int, direction: Direction) -> None:
         super(Bullet, self).__init__()
@@ -24,8 +51,10 @@ class Bullet(pygame.sprite.Sprite):
     def check_block_collide(self):
         block = pygame.sprite.spritecollideany(self, blocks)
         if block:
-            block.kill()
             self.kill()
+            hit = Hit(block.rect.x, block.rect.y)
+            all_sprites.add(hit)
+            block.kill()
 
     def update(self, *args, **kwargs) -> None:
         if self.direction == Direction.UP:
