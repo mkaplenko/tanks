@@ -23,7 +23,13 @@ class Hit(pygame.sprite.Sprite):
     def update(self, *args, **kwargs) -> None:
         self.anim.blit(self.image, (0, 0))
         if self.anim.state == pyganim.STOPPED:
+            self.check_block_collide()
             self.kill()
+
+    def check_block_collide(self):
+        block = pygame.sprite.spritecollideany(self, blocks)
+        if block:
+            block.kill()
 
 
 class Bullet(pygame.sprite.Sprite):
