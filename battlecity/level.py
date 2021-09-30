@@ -1,7 +1,7 @@
 import os
 
-from battlecity import all_sprites, blocks
-from battlecity.block import Block
+from battlecity import all_sprites, blocks, forests
+from battlecity.block import Block, Wall, ArmoredWall, Forest
 from battlecity.config import DATA_DIR
 
 
@@ -16,10 +16,17 @@ class Level:
             cords = 0, 0
             for row in map_data:
                 for el in row:
-                    if el == '0':
-                        bl = Block(*cords)
+                    if el == Block.WALL:
+                        bl = Wall(*cords)
                         all_sprites.add(bl)
                         blocks.add(bl)
+                    elif el == Block.ARM_WALL:
+                        bl = ArmoredWall(*cords)
+                        all_sprites.add(bl)
+                        blocks.add(bl)
+                    elif el == Block.FOREST:
+                        bl = Forest(*cords)
+                        forests.add(bl)
                     cords = cords[0] + Block.SIZE[0], cords[1]
                 cords = 0, cords[1] + Block.SIZE[1]
 

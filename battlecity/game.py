@@ -3,7 +3,8 @@ from typing import Optional
 import pygame
 from pygame import constants
 
-from battlecity import all_sprites, players
+from battlecity import all_sprites, players, forests
+from battlecity.events import REFILL_AMMO_EVENT
 from battlecity.level import Level
 from battlecity.player import Player
 
@@ -50,9 +51,12 @@ class Game:
                     self.player.move(pygame.key.get_pressed())
             if event.type == constants.KEYUP:
                 self.player.move(pygame.key.get_pressed())
+            if event.type == REFILL_AMMO_EVENT:
+                self.player.refill_ammo()
 
         self.screen.fill((0, 0, 0))
         all_sprites.draw(self.screen)
+        forests.draw(self.screen)
         all_sprites.update()
         pygame.display.update()
         self.clock.tick(40)

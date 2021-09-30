@@ -6,6 +6,7 @@ all_sprites = pygame.sprite.Group()
 players = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
+forests = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 
 

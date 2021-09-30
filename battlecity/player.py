@@ -6,13 +6,14 @@ from battlecity import Direction, bullets, all_sprites, blocks
 from battlecity.bullet import Bullet
 from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT, PLAYER1_IMG_UP2, \
     PLAYER1_IMG_DOWN2, PLAYER1_IMG_LEFT2, PLAYER1_IMG_RIGHT2
+from battlecity.events import REFILL_AMMO_EVENT
 
 
 class Player(pygame.sprite.Sprite):
     SIZE = W, H, = 60, 60
     SPEED = 3
     AMMO_TRUNK_SIZE = 2
-    AMMO_PREPARE_SEC = 2
+    AMMO_PREPARE_SEC = 0.4
 
     def __init__(self, x, y):
         super(Player, self).__init__()
@@ -33,8 +34,13 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = x, y
 
+        self.ammo_count = self.AMMO_TRUNK_SIZE
+
         self.vx = 0
         self.vy = 0
+
+    def refill_ammo(self):
+        self.ammo_count = self.AMMO_TRUNK_SIZE
 
     def move(self, keys):
 
@@ -74,21 +80,29 @@ class Player(pygame.sprite.Sprite):
         self.animation.pause()
 
     def fire(self):
-        if self.direction == Direction.UP:
-            pos = self.rect.midtop
-            pos = pos[0] - 4, pos[1]
-        elif self.direction == Direction.DOWN:
-            pos = self.rect.midbottom
-            pos = pos[0] - 4, pos[1]
-        elif self.direction == Direction.LEFT:
-            pos = self.rect.midleft
-            pos = pos[0], pos[1] - 4
-        else:
-            pos = self.rect.midright
-            pos = pos[0], pos[1] - 4
-        bullet = Bullet(*pos, self.direction)
-        bullets.add(bullet)
-        all_sprites.add(bullet)
+        if self.ammo_count > 0:
+            if self.direction == Direction.UP:
+                pos = self.rect.midtop
+                pos = pos[0] - 4, pos[1]
+            elif self.direction == Direction.DOWN:
+                pos = self.rect.midbottom
+                pos = pos[0] - 4, pos[1]
+            elif self.direction == Direction.LEFT:
+                pos = self.rect.midleft
+                pos = pos[0], pos[1] - 4
+            else:
+                pos = self.rect.midright
+                pos = pos[0], pos[1] - 4
+            bullet = Bullet(*pos, self.direction)
+            bullets.add(bullet)
+            all_sprites.add(bullet)
+            self.ammo_count -= 1
+            if self.ammo_count <= 0:
+                self.make_refill_ammo_event()
+
+    @classmethod
+    def make_refill_ammo_event(cls):
+        pygame.time.set_timer(REFILL_AMMO_EVENT, int(cls.AMMO_PREPARE_SEC * 1000), loops=1)
 
     def check_block_collision(self):
         block_collided = pygame.sprite.spritecollideany(self, blocks)

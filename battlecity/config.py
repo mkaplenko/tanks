@@ -19,5 +19,11 @@ PLAYER1_IMG_RIGHT2 = os.path.join(IMG_DIR, 'p1-little-right-2.bmp')
 # WALL
 WALL_IMG = os.path.join(IMG_DIR, 'wall.bmp')
 
+# ARMORED WALL
+ARM_WALL = os.path.join(IMG_DIR, 'armor_wall.bmp')
+
+# FOREST
+FOREST = os.path.join(IMG_DIR, 'forest.bmp')
+
 # HIT
 HIT_SPRITES = os.path.join(IMG_DIR, 'hit.bmp')
