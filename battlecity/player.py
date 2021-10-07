@@ -2,7 +2,7 @@ import pygame
 import pyganim
 from pygame import constants
 
-from battlecity import Direction, bullets, all_sprites, blocks
+from battlecity import Direction, bullets, all_sprites, tank_blocks
 from battlecity.bullet import Bullet
 from battlecity.config import PLAYER1_IMG_UP, PLAYER1_IMG_DOWN, PLAYER1_IMG_LEFT, PLAYER1_IMG_RIGHT, PLAYER1_IMG_UP2, \
     PLAYER1_IMG_DOWN2, PLAYER1_IMG_LEFT2, PLAYER1_IMG_RIGHT2
@@ -105,7 +105,7 @@ class Player(pygame.sprite.Sprite):
         pygame.time.set_timer(REFILL_AMMO_EVENT, int(cls.AMMO_PREPARE_SEC * 1000), loops=1)
 
     def check_block_collision(self):
-        block_collided = pygame.sprite.spritecollideany(self, blocks)
+        block_collided = pygame.sprite.spritecollideany(self, tank_blocks)
         if block_collided:
             if self.direction == Direction.UP:
                 self.rect.top = block_collided.rect.bottom

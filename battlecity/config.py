@@ -25,5 +25,8 @@ ARM_WALL = os.path.join(IMG_DIR, 'armor_wall.bmp')
 # FOREST
 FOREST = os.path.join(IMG_DIR, 'forest.bmp')
 
+# SEA
+SEA = os.path.join(IMG_DIR, 'sea.bmp')
+
 # HIT
 HIT_SPRITES = os.path.join(IMG_DIR, 'hit.bmp')

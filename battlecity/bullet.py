@@ -1,7 +1,7 @@
 import pygame
 import pyganim
 
-from battlecity import Direction, blocks, all_sprites
+from battlecity import Direction, bullet_blocks, all_sprites
 from battlecity.config import HIT_SPRITES
 
 
@@ -15,8 +15,7 @@ class Hit(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = x, y
 
         images = pyganim.getImagesFromSpriteSheet(HIT_SPRITES, rows=1, cols=3, rects=[])
-        t = list(zip(images, (50, 50, 50)))
-        self.anim = pyganim.PygAnimation(t)
+        self.anim = pyganim.PygAnimation(list(zip(images, (50, 50, 50))))
         self.anim.loop = False
         self.anim.play()
 
@@ -26,7 +25,7 @@ class Hit(pygame.sprite.Sprite):
             self.kill()
 
     def check_block_collide(self):
-        block = pygame.sprite.spritecollideany(self, blocks)
+        block = pygame.sprite.spritecollideany(self, bullet_blocks)
         if block:
             block.kill()
 
@@ -50,7 +49,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y = y
 
     def check_block_collide(self):
-        block = pygame.sprite.spritecollideany(self, blocks)
+        block = pygame.sprite.spritecollideany(self, bullet_blocks)
         if block:
             self.kill()
             hit = Hit(*block.rect.topleft)
