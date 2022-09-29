@@ -16,6 +16,17 @@ PLAYER1_IMG_DOWN2 = os.path.join(IMG_DIR, 'p1-little-down-2.bmp')
 PLAYER1_IMG_LEFT2 = os.path.join(IMG_DIR, 'p1-little-left-2.bmp')
 PLAYER1_IMG_RIGHT2 = os.path.join(IMG_DIR, 'p1-little-right-2.bmp')
 
+# ENEMY 1
+ENEMY1_IMG_UP = os.path.join(IMG_DIR, 'enemy-1-up.bmp')
+ENEMY1_IMG_DOWN = os.path.join(IMG_DIR, 'enemy-1-down.bmp')
+ENEMY1_IMG_LEFT = os.path.join(IMG_DIR, 'enemy-1-left.bmp')
+ENEMY1_IMG_RIGHT = os.path.join(IMG_DIR, 'enemy-1-right.bmp')
+
+ENEMY1_IMG_UP2 = os.path.join(IMG_DIR, 'enemy-1-up-2.bmp')
+ENEMY1_IMG_DOWN2 = os.path.join(IMG_DIR, 'enemy-1-down-2.bmp')
+ENEMY1_IMG_LEFT2 = os.path.join(IMG_DIR, 'enemy-1-left-2.bmp')
+ENEMY1_IMG_RIGHT2 = os.path.join(IMG_DIR, 'enemy-1-right-2.bmp')
+
 # WALL
 WALL_IMG = os.path.join(IMG_DIR, 'wall.bmp')
 

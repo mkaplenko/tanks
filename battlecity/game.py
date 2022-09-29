@@ -3,10 +3,12 @@ from typing import Optional
 import pygame
 from pygame import constants
 
-from battlecity import all_sprites, players, forests
+from battlecity import all_sprites, players, forests, Direction, enemies
+from battlecity.enemy import Enemy
 from battlecity.events import REFILL_AMMO_EVENT
 from battlecity.level import Level
 from battlecity.player import Player
+from battlecity.tank import PlayerDefaultTankModel, EnemyDefaultTankModel
 
 
 class Game:
@@ -22,10 +24,15 @@ class Game:
 
     def start(self):
         self.render_level()
-        player = Player(self.w_width / 2 - 60 * 3, self.w_height - 60 * 2)
+        player = Player(self.w_width / 2 - 60 * 3, self.w_height - 60 * 2, Direction.UP, PlayerDefaultTankModel(hp=1))
         all_sprites.add(player)
         players.add(player)
         self.player = player
+
+        enemy = Enemy(self.w_width - 60 * 3, 60, Direction.LEFT, EnemyDefaultTankModel(hp=2))
+        all_sprites.add(enemy)
+        enemies.add(enemy)
+
         self.running = True
         while self.is_running():
             self.make_scene()

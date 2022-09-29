@@ -15,7 +15,7 @@ class Block(ABC, pygame.sprite.Sprite):
     FOREST = 'F'
     SEA = 'S'
 
-    def __init__(self, x, y, hp):
+    def __init__(self, x: int, y: int, hp: Optional[int]):
         super(Block, self).__init__()
         self.x = x
         self.y = y
@@ -54,7 +54,7 @@ class Block(ABC, pygame.sprite.Sprite):
 
 
 class Wall(Block):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super(Wall, self).__init__(x, y, hp=1)
 
     @property
@@ -63,7 +63,7 @@ class Wall(Block):
 
 
 class ArmoredWall(Block):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super(ArmoredWall, self).__init__(x, y, hp=None)
 
     @property
@@ -72,7 +72,7 @@ class ArmoredWall(Block):
 
 
 class Forest(Block):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super(Forest, self).__init__(x, y, hp=None)
 
     @property
@@ -81,7 +81,7 @@ class Forest(Block):
 
 
 class Sea(Block):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super(Sea, self).__init__(x, y, hp=None)
 
     def make_animation(self) -> Optional[pyganim.PygAnimation]:
